@@ -6,7 +6,6 @@ delta = 0
 ddepth = cv2.CV_16S
 
 img = cv2.imread('DrivingInFog.jpg')
-img =cv2.resize(img, (720, 480))
 img = cv2.GaussianBlur(img,(3,3),0)
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -25,7 +24,7 @@ sobel_image = cv2.addWeighted(abs_grad_x,0.5,abs_grad_y,0.5,0)
 #dst = cv2.add(abs_grad_x,abs_grad_y)
 
 # cv2.imshow('Sobel Edge Image',sobel_image)
-canny_image = cv2.Canny(sobel_image, 100, 200, apertureSize=3)
+canny_image = cv2.Canny(sobel_image, 20, 80, apertureSize=3)
 cv2.imshow('Canny Edge Image',canny_image)
 minLineLength = 100
 maxLineGap = 10
