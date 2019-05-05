@@ -4,11 +4,16 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-X = 157
-Y = 181
-in_image = cv2.imread('testFog.png', 0)
-image = cv2.resize(in_image, (181, 157))
+in_image = cv2.imread('DrivingInFog.jpg', 0)
+heigh, width = in_image.shape[:2]
+Y = width
+X = heigh
+print(width)
+print(heigh)
+# image = cv2.resize(in_image, (181, 157))
+
 out_file = cv2.imread('output_file.png', 0)
+# cv2.imshow("anh", out_file)
 
 
 # Canny and show Edge To dam cac vung canh duoc phat hien
@@ -26,7 +31,7 @@ out_file = cv2.imread('output_file.png', 0)
 #
 # cv2.imshow('Canny', edges)
 #
-heigh, width = out_file.shape[:2]
+
 # print("heigh " + str(heigh))
 # print("width " + str(width))
 
@@ -57,6 +62,20 @@ for i in range(0, heigh-1):
         dis = width - 1
     B.append([i, begin, end, end - begin + 1])
 # print B
+
+image = cv2.imread('DrivingInFog.jpg', 0)
+m = image
+
+cv2.imshow("anh goc: ", image)
+
+# Hien thi anh bang thong B
+# for i in range(0, len(B)):
+#     for j in range(B[i][1], B[i][2] + 1):
+#         m[i][j] = 255
+# cv2.imshow("Anh sau: ", m)
+# cv2.waitKey()
+
+
 luminance = []
 for i in range(0, len(B)):
     tong = 0
@@ -67,8 +86,8 @@ for i in range(0, len(B)):
 axisx = []
 axisy = []
 deriy = []
-# print luminance
 print luminance
+# print luminance
 size = len(luminance)
 
 def smooth(y, box_pts):
@@ -86,17 +105,17 @@ power_smooth = spline(axisx, axisy, xnew)
 y_new = []
 y_new.append(0)
 for j in range(1, size - 1):
-    y_new.append((axisy[j+1]-axisy[j-1])/4)
+    y_new.append((axisy[j+1]-axisy[j-1])/2)
 y_new.append(0)
-plt.plot(xnew, axisy, color='red'),
+# plt.plot(xnew, axisy, color='red'),
 plt.plot(xnew, smooth(axisy, 13), 'g-', lw=2)
-plt.axis([0, 181, 0, 250])
+plt.axis([0, X-1, 0, 250])
 plt.xlabel('Bandwidth Heigh (Image Heigh)')
 plt.ylabel('Intensity Value')
 #
 # print y_new
 plt.plot(xnew, y_new, color='blue')
-plt.axis([0,360, -1 , 1])
+plt.axis([0,Y-1, -5 , 2])
 plt.show()
 
 cv2.waitKey(0)
